@@ -1,0 +1,219 @@
+[
+  {
+    "instruction": "Update the @sitecore-jss/sitecore-jss-nextjs package",
+    "detailedDescription": "Update the main JSS Next.js package by running:\n\n```bash\nnpm install @sitecore-jss/sitecore-jss-nextjs@^22.0.0\n```\n\nOr if using yarn:\n```bash\nyarn add @sitecore-jss/sitecore-jss-nextjs@^22.0.0\n```\n\nThis updates the core JSS package that provides Next.js integration, layout service, and component rendering capabilities. After installation, verify the package version in your package.json file matches the target version.",
+    "stepType": "package-update",
+    "from": 21.7,
+    "to": 22.0
+  },
+  {
+    "instruction": "Update environment variables for your existing app",
+    "detailedDescription": "Update your environment configuration files to support the new JSS version:\n\n1. **Update .env files**: Check and update environment variables in your `.env`, `.env.local`, `.env.development`, and `.env.production` files.\n\n2. **Update JSS_APP_NAME**: Ensure your `JSS_APP_NAME` variable matches your Sitecore app name.\n\n3. **Update API endpoints**: Update `SITECORE_API_HOST` and `SITECORE_API_KEY` if there are changes in the API structure.\n\n4. **GraphQL endpoint**: Verify `GRAPH_QL_ENDPOINT` points to the correct GraphQL endpoint for your Sitecore instance.\n\nExample environment variables:\n```\nJSS_APP_NAME=your-app-name\nSITECORE_API_HOST=https://your-sitecore-instance.com\nSITECORE_API_KEY=your-api-key\nGRAPH_QL_ENDPOINT=/sitecore/api/graph/edge\n```",
+    "stepType": "configuration",
+    "from": 21.7,
+    "to": 22.0
+  },
+  {
+    "instruction": "Update application dependencies in your existing app",
+    "detailedDescription": "Update all JSS-related dependencies to ensure compatibility:\n\n```bash\nnpm install @sitecore-jss/sitecore-jss@^22.0.0 @sitecore-jss/sitecore-jss-react@^22.0.0\n```\n\nAlso update any related packages:\n- `@sitecore-jss/sitecore-jss-cli`\n- `@sitecore-jss/sitecore-jss-dev-tools`\n- `@sitecore-jss/sitecore-jss-forms`\n- `@sitecore-jss/sitecore-jss-tracking`\n\nRun `npm audit` after installation to check for any security vulnerabilities. Update peer dependencies if needed.",
+    "stepType": "dependencies",
+    "from": 21.7,
+    "to": 22.0
+  },
+  {
+    "instruction": "Update the JSS configuration",
+    "detailedDescription": "Update your JSS configuration files to work with the new version:\n\n1. **Update scjssconfig.json**: Check your `scjssconfig.json` file for any deprecated configuration options.\n\n2. **Update next.config.js**: Ensure your Next.js configuration is compatible with the new JSS version:\n\n```javascript\nconst { getPublicUrl } = require('@sitecore-jss/sitecore-jss-nextjs/utils');\n\nmodule.exports = {\n  // ... your existing config\n  publicRuntimeConfig: {\n    // Update runtime config as needed\n  },\n  serverRuntimeConfig: {\n    // Update server config as needed\n  }\n};\n```\n\n3. **Update component factory**: Review your component factory registration in `src/temp/componentFactory.ts` and ensure all components are properly registered.",
+    "stepType": "configuration",
+    "from": 21.7,
+    "to": 22.0
+  },
+  {
+    "instruction": "Update the @sitecore-jss/sitecore-jss-nextjs package",
+    "detailedDescription": "Update to version 22.1.0:\n\n```bash\nnpm install @sitecore-jss/sitecore-jss-nextjs@^22.1.0\n```\n\nThis version includes improvements to the rendering engine and better TypeScript support. Review the changelog for breaking changes and new features introduced in this version.",
+    "stepType": "package-update",
+    "from": 22.0,
+    "to": 22.1
+  },
+  {
+    "instruction": "Update your package.json dependencies to version 22.1",
+    "detailedDescription": "Update all JSS-related dependencies in your package.json to version 22.1:\n\n```json\n{\n  \"dependencies\": {\n    \"@sitecore-jss/sitecore-jss\": \"^22.1.0\",\n    \"@sitecore-jss/sitecore-jss-nextjs\": \"^22.1.0\",\n    \"@sitecore-jss/sitecore-jss-react\": \"^22.1.0\"\n  }\n}\n```\n\nRun `npm install` or `yarn install` after updating the package.json file to install the new versions.",
+    "stepType": "dependencies",
+    "from": 22.0,
+    "to": 22.1
+  },
+  {
+    "instruction": "Update environment configuration files",
+    "detailedDescription": "Review and update environment-specific configuration:\n\n1. **Check for new environment variables**: Version 22.1 may introduce new configuration options.\n\n2. **Update .env.example**: Ensure your `.env.example` file includes all required environment variables for the new version.\n\n3. **Update deployment configs**: Check your deployment configuration files (docker-compose, k8s manifests, etc.) for any environment variable changes.\n\n4. **Validate configuration**: Use the JSS CLI to validate your configuration: `jss setup`",
+    "stepType": "configuration",
+    "from": 22.0,
+    "to": 22.1
+  },
+  {
+    "instruction": "Update the @sitecore-jss/sitecore-jss-nextjs package",
+    "detailedDescription": "Update to version 22.2.0:\n\n```bash\nnpm install @sitecore-jss/sitecore-jss-nextjs@^22.2.0\n```\n\nVersion 22.2 includes enhanced component rendering and improved error handling. Check the release notes for any breaking changes or new features.",
+    "stepType": "package-update",
+    "from": 22.1,
+    "to": 22.2
+  },
+  {
+    "instruction": "Update application dependencies in your existing app",
+    "detailedDescription": "Ensure all dependencies are compatible with JSS 22.2:\n\n```bash\nnpm install @sitecore-jss/sitecore-jss@^22.2.0\n```\n\nUpdate related packages and check for peer dependency warnings. This version may require updates to React or Next.js versions.",
+    "stepType": "dependencies",
+    "from": 22.1,
+    "to": 22.2
+  },
+  {
+    "instruction": "Update component rendering logic for compatibility",
+    "detailedDescription": "Review and update your component rendering logic:\n\n1. **Check component props**: Verify that your components handle props correctly with the new rendering engine.\n\n2. **Update placeholder rendering**: If you have custom placeholder components, ensure they work with the updated rendering logic.\n\n3. **Test component factory**: Verify your component factory registration still works correctly:\n\n```typescript\nimport { ComponentFactory } from '@sitecore-jss/sitecore-jss-nextjs';\n\n// Ensure all components are properly registered\nconst componentFactory = new ComponentFactory();\ncomponentFactory.register('YourComponent', YourComponent);\n```\n\n4. **Update error boundaries**: Check that your error boundaries handle rendering errors appropriately.",
+    "stepType": "code-update",
+    "from": 22.1,
+    "to": 22.2
+  },
+  {
+    "instruction": "Update the @sitecore-jss/sitecore-jss-nextjs package",
+    "detailedDescription": "Update to version 22.3.0:\n\n```bash\nnpm install @sitecore-jss/sitecore-jss-nextjs@^22.3.0\n```\n\nThis version introduces new API endpoints and improved GraphQL integration. Review the changelog for new features and potential breaking changes.",
+    "stepType": "package-update",
+    "from": 22.2,
+    "to": 22.3
+  },
+  {
+    "instruction": "Update API configuration for new endpoints",
+    "detailedDescription": "Version 22.3 introduces new API endpoints that require configuration updates:\n\n1. **Update GraphQL endpoint configuration**: Check if your GraphQL endpoint configuration needs updates in your environment files.\n\n2. **Update Layout Service configuration**: Review your Layout Service endpoint configuration:\n\n```javascript\n// In your layout service config\nconst layoutServiceConfig = {\n  apiHost: process.env.SITECORE_API_HOST,\n  apiKey: process.env.SITECORE_API_KEY,\n  siteName: process.env.JSS_APP_NAME,\n  // New configuration options in 22.3\n  configurationName: 'default'\n};\n```\n\n3. **Update API key permissions**: Ensure your API keys have the necessary permissions for new endpoints.\n\n4. **Test API connectivity**: Verify that all API calls work correctly with the new endpoints.",
+    "stepType": "configuration",
+    "from": 22.2,
+    "to": 22.3
+  },
+  {
+    "instruction": "Update middleware configuration",
+    "detailedDescription": "Update your Next.js middleware to work with JSS 22.3:\n\n1. **Update middleware.ts**: If you have custom middleware, ensure it's compatible with the new version:\n\n```typescript\nimport { NextRequest, NextResponse } from 'next/server';\nimport { middleware as jssMiddleware } from '@sitecore-jss/sitecore-jss-nextjs/middleware';\n\nexport async function middleware(request: NextRequest) {\n  // Apply JSS middleware\n  const response = await jssMiddleware(request);\n  \n  // Add your custom middleware logic\n  return response || NextResponse.next();\n}\n\nexport const config = {\n  matcher: [\n    '/((?!api|_next/static|_next/image|favicon.ico).*)',\n  ],\n};\n```\n\n2. **Update rewrite rules**: Check if any URL rewrite rules need updating for the new API structure.\n\n3. **Test routing**: Verify that all routes work correctly with the updated middleware configuration.",
+    "stepType": "code-update",
+    "from": 22.2,
+    "to": 22.3
+  },
+  {
+    "instruction": "Update the @sitecore-jss/sitecore-jss-nextjs package",
+    "detailedDescription": "Update to version 22.4.0:\n\n```bash\nnpm install @sitecore-jss/sitecore-jss-nextjs@^22.4.0\n```\n\nVersion 22.4 includes improved TypeScript support and new authentication features. Check for any breaking changes in the release notes.",
+    "stepType": "package-update",
+    "from": 22.3,
+    "to": 22.4
+  },
+  {
+    "instruction": "Update TypeScript type definitions",
+    "detailedDescription": "Version 22.4 includes updated TypeScript definitions:\n\n1. **Update type imports**: Check your component imports for updated type definitions:\n\n```typescript\nimport {\n  ComponentProps,\n  ComponentRendering,\n  Field,\n  ImageField,\n  TextField\n} from '@sitecore-jss/sitecore-jss-nextjs';\n```\n\n2. **Update component interfaces**: Review your component prop interfaces to ensure they match the updated types.\n\n3. **Fix TypeScript errors**: Run `npm run type-check` or `tsc --noEmit` to identify and fix any TypeScript errors.\n\n4. **Update tsconfig.json**: Ensure your TypeScript configuration is compatible with the new type definitions.",
+    "stepType": "code-update",
+    "from": 22.3,
+    "to": 22.4
+  },
+  {
+    "instruction": "Update authentication configuration",
+    "detailedDescription": "Configure new authentication features in JSS 22.4:\n\n1. **Update authentication provider**: If using authentication, update your provider configuration:\n\n```typescript\nimport { AuthenticationProvider } from '@sitecore-jss/sitecore-jss-nextjs';\n\nconst authConfig = {\n  sitecoreApiHost: process.env.SITECORE_API_HOST,\n  sitecoreApiKey: process.env.SITECORE_API_KEY,\n  // New authentication options in 22.4\n  authenticationMethod: 'bearer' // or 'cookie'\n};\n```\n\n2. **Update login/logout flows**: Review and test your authentication flows with the updated authentication system.\n\n3. **Update protected routes**: Ensure your route protection logic works with the new authentication features.",
+    "stepType": "configuration",
+    "from": 22.3,
+    "to": 22.4
+  },
+  {
+    "instruction": "Update the @sitecore-jss/sitecore-jss-nextjs package",
+    "detailedDescription": "Update to version 22.5.0:\n\n```bash\nnpm install @sitecore-jss/sitecore-jss-nextjs@^22.5.0\n```\n\nThis version includes GraphQL schema improvements and layout service enhancements.",
+    "stepType": "package-update",
+    "from": 22.4,
+    "to": 22.5
+  },
+  {
+    "instruction": "Update GraphQL schema and queries",
+    "detailedDescription": "Update your GraphQL implementation for JSS 22.5:\n\n1. **Update GraphQL queries**: Review your GraphQL queries for any schema changes:\n\n```graphql\nquery LayoutQuery($siteName: String!, $itemPath: String!, $language: String!) {\n  layout(site: $siteName, routePath: $itemPath, language: $language) {\n    item {\n      rendered\n      # Updated fields in 22.5\n      children {\n        results {\n          id\n          name\n          # Additional fields\n        }\n      }\n    }\n  }\n}\n```\n\n2. **Update GraphQL client configuration**: Ensure your GraphQL client is configured correctly for the new schema.\n\n3. **Test GraphQL endpoints**: Verify that all GraphQL queries return expected data with the updated schema.",
+    "stepType": "code-update",
+    "from": 22.4,
+    "to": 22.5
+  },
+  {
+    "instruction": "Update layout service configuration",
+    "detailedDescription": "Configure layout service improvements in JSS 22.5:\n\n1. **Update layout service factory**: Update your layout service configuration:\n\n```typescript\nimport { LayoutServiceFactory } from '@sitecore-jss/sitecore-jss-nextjs';\n\nconst layoutService = LayoutServiceFactory({\n  apiHost: process.env.SITECORE_API_HOST,\n  apiKey: process.env.SITECORE_API_KEY,\n  siteName: process.env.JSS_APP_NAME,\n  // New options in 22.5\n  timeout: 10000,\n  retries: 3\n});\n```\n\n2. **Update caching configuration**: Configure new caching options if available.\n\n3. **Test layout service**: Verify that layout data is retrieved correctly with the updated configuration.",
+    "stepType": "configuration",
+    "from": 22.4,
+    "to": 22.5
+  },
+  {
+    "instruction": "Update the @sitecore-jss/sitecore-jss-nextjs package",
+    "detailedDescription": "Update to version 22.6.0:\n\n```bash\nnpm install @sitecore-jss/sitecore-jss-nextjs@^22.6.0\n```\n\nVersion 22.6 includes component factory improvements and image optimization features.",
+    "stepType": "package-update",
+    "from": 22.5,
+    "to": 22.6
+  },
+  {
+    "instruction": "Update component factory registrations",
+    "detailedDescription": "Update your component factory with new registration methods in JSS 22.6:\n\n1. **Update component registration**: Use the improved component factory:\n\n```typescript\nimport { ComponentFactory } from '@sitecore-jss/sitecore-jss-nextjs';\n\n// New registration method in 22.6\nconst componentFactory = new ComponentFactory({\n  // Improved component registration options\n  lazy: true, // Enable lazy loading\n  errorBoundary: true // Automatic error boundaries\n});\n\n// Register components\ncomponentFactory.register([\n  { name: 'ContentBlock', component: ContentBlock },\n  { name: 'Hero', component: Hero },\n]);\n```\n\n2. **Update component exports**: Ensure all your components are properly exported and can be dynamically imported.\n\n3. **Test component loading**: Verify that all components load correctly with the updated factory.",
+    "stepType": "code-update",
+    "from": 22.5,
+    "to": 22.6
+  },
+  {
+    "instruction": "Update image optimization settings",
+    "detailedDescription": "Configure new image optimization features in JSS 22.6:\n\n1. **Update Next.js image configuration**: Configure image optimization in next.config.js:\n\n```javascript\nmodule.exports = {\n  images: {\n    domains: ['your-sitecore-domain.com'],\n    // New JSS image optimization options\n    loader: 'sitecore',\n    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],\n    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],\n  },\n};\n```\n\n2. **Update image component usage**: Use the improved image component:\n\n```tsx\nimport { Image } from '@sitecore-jss/sitecore-jss-nextjs';\n\n<Image\n  field={imageField}\n  // New optimization options\n  priority={true}\n  sizes=\"(max-width: 768px) 100vw, 50vw\"\n/>\n```\n\n3. **Test image loading**: Verify that images load correctly with the new optimization settings.",
+    "stepType": "configuration",
+    "from": 22.5,
+    "to": 22.6
+  },
+  {
+    "instruction": "Update the @sitecore-jss/sitecore-jss-nextjs package",
+    "detailedDescription": "Update to version 22.7.0:\n\n```bash\nnpm install @sitecore-jss/sitecore-jss-nextjs@^22.7.0\n```\n\nThis version includes personalization improvements and analytics tracking enhancements.",
+    "stepType": "package-update",
+    "from": 22.6,
+    "to": 22.7
+  },
+  {
+    "instruction": "Update personalization service configuration",
+    "detailedDescription": "Configure enhanced personalization features in JSS 22.7:\n\n1. **Update personalization configuration**: Configure the personalization service:\n\n```typescript\nimport { PersonalizationService } from '@sitecore-jss/sitecore-jss-nextjs';\n\nconst personalizationConfig = {\n  apiHost: process.env.SITECORE_API_HOST,\n  apiKey: process.env.SITECORE_API_KEY,\n  // New personalization options in 22.7\n  timeout: 5000,\n  cacheTimeout: 300000,\n  enableEdgePersonalization: true\n};\n```\n\n2. **Update component personalization**: Use the updated personalization hooks:\n\n```tsx\nimport { usePersonalization } from '@sitecore-jss/sitecore-jss-nextjs';\n\nconst MyComponent = () => {\n  const { isPersonalized, variantId } = usePersonalization();\n  \n  return (\n    <div data-variant={variantId}>\n      {/* Component content */}\n    </div>\n  );\n};\n```\n\n3. **Test personalization**: Verify that personalization rules work correctly.",
+    "stepType": "configuration",
+    "from": 22.6,
+    "to": 22.7
+  },
+  {
+    "instruction": "Update analytics tracking implementation",
+    "detailedDescription": "Update analytics tracking with JSS 22.7 improvements:\n\n1. **Update tracking configuration**: Configure the analytics service:\n\n```typescript\nimport { AnalyticsService } from '@sitecore-jss/sitecore-jss-nextjs';\n\nconst analyticsConfig = {\n  endpoint: process.env.SITECORE_ANALYTICS_ENDPOINT,\n  // New tracking options in 22.7\n  enableRealTimeTracking: true,\n  batchSize: 10,\n  flushInterval: 30000\n};\n```\n\n2. **Update event tracking**: Use the improved event tracking APIs:\n\n```typescript\nimport { trackEvent } from '@sitecore-jss/sitecore-jss-nextjs';\n\n// Track custom events\ntrackEvent({\n  eventName: 'button_click',\n  eventData: {\n    buttonId: 'cta-primary',\n    pageUrl: window.location.href\n  }\n});\n```\n\n3. **Test analytics**: Verify that analytics data is being collected correctly.",
+    "stepType": "code-update",
+    "from": 22.6,
+    "to": 22.7
+  },
+  {
+    "instruction": "Update the @sitecore-jss/sitecore-jss-nextjs package",
+    "detailedDescription": "Update to version 22.8.0:\n\n```bash\nnpm install @sitecore-jss/sitecore-jss-nextjs@^22.8.0\n```\n\nVersion 22.8 includes content serialization improvements and deployment enhancements.",
+    "stepType": "package-update",
+    "from": 22.7,
+    "to": 22.8
+  },
+  {
+    "instruction": "Update content serialization configuration",
+    "detailedDescription": "Configure improved content serialization in JSS 22.8:\n\n1. **Update serialization settings**: Update your serialization configuration:\n\n```json\n{\n  \"serialization\": {\n    \"defaultMaxItemsPerIteration\": 100,\n    \"defaultExcludedFields\": [],\n    \"defaultExcludedTemplates\": [],\n    \"removeOrphansForRoles\": true,\n    \"removeOrphansForUsers\": true,\n    \"unicorn\": {\n      \"configurations\": {\n        \"Project.MyProject\": {\n          \"targetDataStore\": {\n            \"physicalRootPath\": \"./sitecore/content\",\n            \"type\": \"Rainbow.Storage.SerializationFileSystemDataStore, Rainbow\"\n          }\n        }\n      }\n    }\n  }\n}\n```\n\n2. **Update build scripts**: Update your build scripts to use the new serialization commands:\n\n```bash\n# New serialization commands in 22.8\njss serialize content --all\njss deserialize content --all\n```\n\n3. **Test serialization**: Verify that content serialization works correctly with the updated configuration.",
+    "stepType": "configuration",
+    "from": 22.7,
+    "to": 22.8
+  },
+  {
+    "instruction": "Update deployment scripts and CI/CD pipelines",
+    "detailedDescription": "Update your deployment process for JSS 22.8:\n\n1. **Update deployment scripts**: Update your deployment scripts to use new JSS CLI commands:\n\n```bash\n#!/bin/bash\n# Updated deployment script for JSS 22.8\n\n# Build the application\nnpm run build\n\n# Deploy to Sitecore\njss deploy app --configName production\n\n# Deploy items (new in 22.8)\njss deploy items --configName production\n\n# Clear caches\njss clear-cache --all\n```\n\n2. **Update CI/CD pipelines**: Update your CI/CD configuration (GitHub Actions, Azure DevOps, etc.):\n\n```yaml\n# Updated GitHub Actions workflow\nsteps:\n  - name: Deploy JSS App\n    run: |\n      npm install\n      npm run build\n      jss deploy app --configName ${{ env.CONFIG_NAME }}\n      # New deployment verification step\n      jss verify-deployment --timeout 300\n```\n\n3. **Test deployment**: Verify that deployment works correctly with the updated scripts.",
+    "stepType": "deployment",
+    "from": 22.7,
+    "to": 22.8
+  },
+  {
+    "instruction": "Update the @sitecore-jss/sitecore-jss-nextjs package",
+    "detailedDescription": "Update to version 22.9.0:\n\n```bash\nnpm install @sitecore-jss/sitecore-jss-nextjs@^22.9.0\n```\n\nVersion 22.9 includes rendering host improvements and enhanced error handling.",
+    "stepType": "package-update",
+    "from": 22.8,
+    "to": 22.9
+  },
+  {
+    "instruction": "Update rendering host configuration",
+    "detailedDescription": "Configure enhanced rendering host features in JSS 22.9:\n\n1. **Update rendering host settings**: Update your rendering host configuration:\n\n```typescript\n// In your rendering host configuration\nconst renderingHostConfig = {\n  // New configuration options in 22.9\n  enableHealthChecks: true,\n  healthCheckEndpoint: '/api/health',\n  renderingTimeout: 30000,\n  maxConcurrentRequests: 100,\n  enableMetrics: true\n};\n```\n\n2. **Update health check endpoint**: Implement the health check endpoint:\n\n```typescript\n// pages/api/health.ts\nimport { NextApiRequest, NextApiResponse } from 'next';\n\nexport default function handler(req: NextApiRequest, res: NextApiResponse) {\n  // Perform health checks\n  const healthStatus = {\n    status: 'healthy',\n    timestamp: new Date().toISOString(),\n    version: process.env.npm_package_version\n  };\n  \n  res.status(200).json(healthStatus);\n}\n```\n\n3. **Test rendering host**: Verify that the rendering host configuration works correctly.",
+    "stepType": "configuration",
+    "from": 22.8,
+    "to": 22.9
+  },
+  {
+    "instruction": "Update error handling and logging mechanisms",
+    "detailedDescription": "Implement enhanced error handling and logging in JSS 22.9:\n\n1. **Update error boundaries**: Implement improved error boundaries:\n\n```tsx\nimport { ErrorBoundary } from '@sitecore-jss/sitecore-jss-nextjs';\n\nconst MyApp = ({ Component, pageProps }) => {\n  return (\n    <ErrorBoundary\n      // New error boundary options in 22.9\n      fallback={<ErrorFallback />}\n      onError={(error, errorInfo) => {\n        // Enhanced error logging\n        console.error('Application error:', error, errorInfo);\n        // Send to error tracking service\n      }}\n    >\n      <Component {...pageProps} />\n    </ErrorBoundary>\n  );\n};\n```\n\n2. **Update logging configuration**: Configure enhanced logging:\n\n```typescript\nimport { Logger } from '@sitecore-jss/sitecore-jss-nextjs';\n\nconst logger = new Logger({\n  level: process.env.LOG_LEVEL || 'info',\n  // New logging options in 22.9\n  enableStructuredLogging: true,\n  enableRemoteLogging: true,\n  remoteEndpoint: process.env.LOG_ENDPOINT\n});\n```\n\n3. **Test error handling**: Verify that error handling works correctly and errors are logged appropriately.",
+    "stepType": "code-update",
+    "from": 22.8,
+    "to": 22.9
+  }
+]
