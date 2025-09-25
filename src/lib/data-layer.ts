@@ -52,6 +52,16 @@ export class JsonUpgradeStepRepository implements IUpgradeStepRepository {
   }
 
   private consolidateSimilarSteps(steps: UpgradeStep[], targetVersion: number): UpgradeStep[] {
+    // First consolidate by step type (existing logic)
+    const typeConsolidatedSteps = this.consolidateByType(steps, targetVersion);
+    
+    // Then consolidate by affected file to avoid overlapping file updates
+    const fileConsolidatedSteps = this.consolidateByAffectedFile(typeConsolidatedSteps);
+    
+    return fileConsolidatedSteps;
+  }
+
+  private consolidateByType(steps: UpgradeStep[], targetVersion: number): UpgradeStep[] {
     const stepsByType = new Map<string, UpgradeStep[]>();
     const nonConsolidatedSteps: UpgradeStep[] = [];
 
@@ -84,6 +94,178 @@ export class JsonUpgradeStepRepository implements IUpgradeStepRepository {
     });
 
     return [...consolidatedSteps, ...nonConsolidatedSteps];
+  }
+
+  private consolidateByAffectedFile(steps: UpgradeStep[]): UpgradeStep[] {
+    const stepsByFile = new Map<string, UpgradeStep[]>();
+    const stepsWithoutFiles: UpgradeStep[] = [];
+
+    // Group steps by affected file
+    steps.forEach(step => {
+      if (step.affectedFile) {
+        if (!stepsByFile.has(step.affectedFile)) {
+          stepsByFile.set(step.affectedFile, []);
+        }
+        stepsByFile.get(step.affectedFile)!.push(step);
+      } else {
+        stepsWithoutFiles.push(step);
+      }
+    });
+
+    // Consolidate steps that affect the same file
+    const consolidatedSteps: UpgradeStep[] = [];
+    stepsByFile.forEach((fileSteps, fileName) => {
+      if (fileSteps.length === 1) {
+        // Only one step affects this file, no consolidation needed
+        consolidatedSteps.push(fileSteps[0]);
+      } else {
+        // Multiple steps affect the same file, consolidate them
+        const consolidated = this.consolidateFileSteps(fileSteps, fileName);
+        if (consolidated) {
+          consolidatedSteps.push(consolidated);
+        }
+      }
+    });
+
+    return [...consolidatedSteps, ...stepsWithoutFiles];
+  }
+
+  private consolidateFileSteps(fileSteps: UpgradeStep[], fileName: string): UpgradeStep | null {
+    if (fileSteps.length === 0) return null;
+
+    // Sort by version to maintain logical order
+    const sortedSteps = fileSteps.sort((a, b) => a.from - b.from);
+    const firstStep = sortedSteps[0];
+    const lastStep = sortedSteps[sortedSteps.length - 1];
+
+    // Create consolidated instruction
+    const uniqueInstructions = this.getUniqueInstructions(sortedSteps);
+    const consolidatedInstruction = this.createConsolidatedInstruction(uniqueInstructions, fileName);
+
+    // Combine detailed descriptions without overlap
+    const consolidatedDescription = this.mergeDetailedDescriptions(sortedSteps);
+
+    return {
+      instruction: consolidatedInstruction,
+      detailedDescription: consolidatedDescription,
+      from: firstStep.from,
+      to: lastStep.to,
+      stepType: this.getMostImportantStepType(sortedSteps),
+      affectedFile: fileName
+    };
+  }
+
+  private getUniqueInstructions(steps: UpgradeStep[]): string[] {
+    const instructions = new Set<string>();
+    steps.forEach(step => {
+      // Remove version-specific information to get the base instruction
+      const baseInstruction = step.instruction
+        .replace(/to \d+\.\d+(\.\d+)?/gi, '')
+        .replace(/version \d+\.\d+(\.\d+)?/gi, '')
+        .replace(/\d+\.\d+(\.\d+)?/g, '')
+        .trim();
+      
+      if (baseInstruction) {
+        instructions.add(baseInstruction);
+      }
+    });
+    return Array.from(instructions);
+  }
+
+  private createConsolidatedInstruction(instructions: string[], fileName: string): string {
+    if (instructions.length === 1) {
+      return `Update ${fileName} configuration`;
+    }
+    
+    // For multiple instructions affecting the same file
+    return `Update ${fileName} with multiple configuration changes`;
+  }
+
+  private mergeDetailedDescriptions(steps: UpgradeStep[]): string {
+    const sections = new Map<string, Set<string>>();
+    
+    steps.forEach(step => {
+      // Split detailed description into sections
+      const lines = step.detailedDescription.split('\n');
+      let currentSection = 'general';
+      let currentContent = new Set<string>();
+      
+      lines.forEach(line => {
+        const trimmedLine = line.trim();
+        
+        // Identify section headers
+        if (trimmedLine.match(/^\d+\.\s*\*\*/) || trimmedLine.startsWith('**') && trimmedLine.endsWith('**')) {
+          // Save previous section
+          if (currentContent.size > 0) {
+            if (!sections.has(currentSection)) {
+              sections.set(currentSection, new Set());
+            }
+            currentContent.forEach(content => sections.get(currentSection)!.add(content));
+          }
+          
+          // Start new section
+          currentSection = trimmedLine.replace(/^\d+\.\s*/, '').replace(/\*\*/g, '').toLowerCase();
+          currentContent = new Set();
+        } else if (trimmedLine.length > 0) {
+          currentContent.add(trimmedLine);
+        }
+      });
+      
+      // Save final section
+      if (currentContent.size > 0) {
+        if (!sections.has(currentSection)) {
+          sections.set(currentSection, new Set());
+        }
+        currentContent.forEach(content => sections.get(currentSection)!.add(content));
+      }
+    });
+
+    // Rebuild consolidated description
+    const consolidatedSections: string[] = [];
+    let sectionIndex = 1;
+    
+    sections.forEach((content, sectionName) => {
+      if (sectionName !== 'general') {
+        consolidatedSections.push(`${sectionIndex}. **${sectionName}**:`);
+        sectionIndex++;
+      }
+      
+      content.forEach(line => {
+        if (!line.startsWith('```') && !line.match(/^\d+\./)) {
+          consolidatedSections.push(line);
+        }
+      });
+      
+      consolidatedSections.push(''); // Add spacing between sections
+    });
+
+    return consolidatedSections.join('\n').trim();
+  }
+
+  private getMostImportantStepType(steps: UpgradeStep[]): string {
+    const typePriority: Record<string, number> = {
+      'package-update': 1,
+      'dependencies': 2,
+      'configuration': 3,
+      'code-update': 4,
+      'testing': 5,
+      'deployment': 6
+    };
+
+    let mostImportantType = '';
+    let highestPriority = Infinity;
+
+    steps.forEach(step => {
+      if (step.stepType) {
+        const priority = typePriority[step.stepType] || 10;
+        if (priority < highestPriority) {
+          highestPriority = priority;
+          mostImportantType = step.stepType;
+        }
+      }
+    });
+
+    return mostImportantType || 'configuration';
   }
 
   private shouldConsolidate(stepType: string): boolean {

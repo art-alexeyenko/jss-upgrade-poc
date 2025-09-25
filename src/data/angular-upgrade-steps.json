@@ -3,6 +3,7 @@
     "instruction": "Update the @sitecore-jss/sitecore-jss-angular package",
     "detailedDescription": "Update the main JSS Angular package to version 22.6.0:\n\n```bash\nnpm install @sitecore-jss/sitecore-jss-angular@^22.6.0\n```\n\nOr if using yarn:\n```bash\nyarn add @sitecore-jss/sitecore-jss-angular@^22.6.0\n```\n\nThis package provides Angular-specific JSS functionality including component rendering, routing, and layout services. After installation, verify the package version in your package.json matches the target version.",
     "stepType": "package-update",
+    "affectedFile": "package.json",
     "from": 22.5,
     "to": 22.6
   },
@@ -10,6 +11,7 @@
     "instruction": "Update application dependencies in your existing app",
     "detailedDescription": "Update all JSS-related dependencies for Angular to ensure compatibility:\n\n```bash\nnpm install @sitecore-jss/sitecore-jss@^22.6.0 @sitecore-jss/sitecore-jss-angular@^22.6.0\n```\n\nAlso update related Angular packages:\n- `@sitecore-jss/sitecore-jss-cli`\n- `@sitecore-jss/sitecore-jss-dev-tools`\n- `@sitecore-jss/sitecore-jss-forms`\n\nEnsure Angular version compatibility:\n```bash\nnpm install @angular/core@^15.0.0 @angular/common@^15.0.0 @angular/router@^15.0.0\n```\n\nRun `npm audit` after installation to check for security vulnerabilities.",
     "stepType": "dependencies",
+    "affectedFile": "package.json",
     "from": 22.5,
     "to": 22.6
   },
@@ -17,6 +19,7 @@
     "instruction": "Update Angular component decorators and lifecycle hooks",
     "detailedDescription": "Update your Angular components to work with JSS 22.6:\n\n1. **Update component decorators**: Ensure your components use the correct JSS decorators:\n\n```typescript\nimport { Component, OnInit, Input } from '@angular/core';\nimport { ComponentRendering } from '@sitecore-jss/sitecore-jss-angular';\n\n@Component({\n  selector: 'app-my-component',\n  templateUrl: './my-component.component.html'\n})\nexport class MyComponentComponent implements OnInit {\n  @Input() rendering: ComponentRendering;\n  \n  ngOnInit(): void {\n    // Component initialization logic\n  }\n}\n```\n\n2. **Update lifecycle hooks**: Review ngOnInit, ngOnDestroy, and other lifecycle hooks to ensure they work correctly with the updated JSS version.\n\n3. **Update component registration**: Ensure components are properly registered in your component factory:\n\n```typescript\n// In your component factory\nconst componentFactory = {\n  'MyComponent': MyComponentComponent,\n  // Other components...\n};\n```",
     "stepType": "code-update",
+    "affectedFile": "src/app/components/*.component.ts",
     "from": 22.5,
     "to": 22.6
   },
@@ -24,6 +27,7 @@
     "instruction": "Update the @sitecore-jss/sitecore-jss-angular package",
     "detailedDescription": "Update to version 22.7.0:\n\n```bash\nnpm install @sitecore-jss/sitecore-jss-angular@^22.7.0\n```\n\nVersion 22.7 includes improved template handling and routing enhancements for Angular applications.",
     "stepType": "package-update",
+    "affectedFile": "package.json",
     "from": 22.6,
     "to": 22.7
   },
@@ -31,6 +35,7 @@
     "instruction": "Update the Angular template files in your existing app",
     "detailedDescription": "Update your Angular templates to work with JSS 22.7:\n\n1. **Update component templates**: Review your component templates for any breaking changes:\n\n```html\n<!-- Updated template syntax for JSS 22.7 -->\n<div *scPlaceholder=\"'content'; let rendering = rendering\">\n  <ng-container [ngSwitch]=\"rendering.componentName\">\n    <app-hero *ngSwitchCase=\"'Hero'\" [rendering]=\"rendering\"></app-hero>\n    <app-content-block *ngSwitchCase=\"'ContentBlock'\" [rendering]=\"rendering\"></app-content-block>\n  </ng-container>\n</div>\n```\n\n2. **Update field rendering**: Use updated field rendering directives:\n\n```html\n<!-- Text field rendering -->\n<span [scText]=\"rendering.fields.title\"></span>\n\n<!-- Image field rendering -->\n<img [scImage]=\"rendering.fields.image\" />\n\n<!-- Rich text field rendering -->\n<div [scRichText]=\"rendering.fields.content\"></div>\n```\n\n3. **Update placeholder templates**: Ensure placeholder templates use the correct syntax for the new version.",
     "stepType": "code-update",
+    "affectedFile": "src/app/components/*.component.html",
     "from": 22.6,
     "to": 22.7
   },
@@ -38,6 +43,7 @@
     "instruction": "Update Angular routing configuration",
     "detailedDescription": "Update your Angular routing to work with JSS 22.7:\n\n1. **Update app routing module**: Update your main routing configuration:\n\n```typescript\nimport { NgModule } from '@angular/core';\nimport { RouterModule, Routes } from '@angular/router';\nimport { JssRouteBuilderService } from '@sitecore-jss/sitecore-jss-angular';\n\nconst routes: Routes = [\n  {\n    path: '**',\n    component: AppComponent,\n    // Updated route data for JSS 22.7\n    data: {\n      jssRoute: true,\n      enableTracing: true\n    }\n  }\n];\n\n@NgModule({\n  imports: [RouterModule.forRoot(routes)],\n  exports: [RouterModule]\n})\nexport class AppRoutingModule { }\n```\n\n2. **Update route resolver**: If using custom route resolvers, update them for the new version:\n\n```typescript\nimport { Injectable } from '@angular/core';\nimport { Resolve } from '@angular/router';\nimport { LayoutService } from '@sitecore-jss/sitecore-jss-angular';\n\n@Injectable()\nexport class JssRouteResolver implements Resolve<any> {\n  constructor(private layoutService: LayoutService) {}\n  \n  resolve(route: ActivatedRouteSnapshot): Observable<any> {\n    // Updated resolver logic for 22.7\n    return this.layoutService.getRouteData(route.url.join('/'));\n  }\n}\n```\n\n3. **Test routing**: Verify that all routes work correctly with the updated configuration.",
     "stepType": "configuration",
+    "affectedFile": "src/app/app-routing.module.ts",
     "from": 22.6,
     "to": 22.7
   },
@@ -45,6 +51,7 @@
     "instruction": "Update service injections and dependency injection",
     "detailedDescription": "Update your Angular services and dependency injection for JSS 22.7:\n\n1. **Update service injection**: Update your service injections:\n\n```typescript\nimport { Injectable, Inject } from '@angular/core';\nimport { LAYOUT_SERVICE_TOKEN, LayoutService } from '@sitecore-jss/sitecore-jss-angular';\n\n@Injectable({\n  providedIn: 'root'\n})\nexport class MyService {\n  constructor(\n    @Inject(LAYOUT_SERVICE_TOKEN) private layoutService: LayoutService\n  ) {}\n  \n  // Service methods...\n}\n```\n\n2. **Update app module providers**: Update your app module providers:\n\n```typescript\nimport { NgModule } from '@angular/core';\nimport { JssModule, LAYOUT_SERVICE_TOKEN } from '@sitecore-jss/sitecore-jss-angular';\n\n@NgModule({\n  imports: [\n    JssModule.forRoot({\n      // Updated configuration for 22.7\n      layoutServiceConfig: {\n        apiHost: environment.sitecoreApiHost,\n        apiKey: environment.sitecoreApiKey,\n        siteName: environment.jssAppName\n      }\n    })\n  ],\n  providers: [\n    // Updated providers for 22.7\n    {\n      provide: LAYOUT_SERVICE_TOKEN,\n      useClass: LayoutService\n    }\n  ]\n})\nexport class AppModule { }\n```\n\n3. **Test service injection**: Verify that all services are injected correctly.",
     "stepType": "code-update",
+    "affectedFile": "src/app/app.module.ts",
     "from": 22.6,
     "to": 22.7
   },
@@ -52,6 +59,7 @@
     "instruction": "Update the @sitecore-jss/sitecore-jss-angular package",
     "detailedDescription": "Update to version 22.8.0:\n\n```bash\nnpm install @sitecore-jss/sitecore-jss-angular@^22.8.0\n```\n\nVersion 22.8 includes module system improvements and HTTP interceptor enhancements.",
     "stepType": "package-update",
+    "affectedFile": "package.json",
     "from": 22.7,
     "to": 22.8
   },
@@ -59,6 +67,7 @@
     "instruction": "Update Angular module imports and exports",
     "detailedDescription": "Update your Angular modules for JSS 22.8:\n\n1. **Update main app module**: Update your app module imports:\n\n```typescript\nimport { NgModule } from '@angular/core';\nimport { BrowserModule } from '@angular/platform-browser';\nimport { JssModule } from '@sitecore-jss/sitecore-jss-angular';\n\n@NgModule({\n  declarations: [\n    AppComponent,\n    // Your components...\n  ],\n  imports: [\n    BrowserModule,\n    // Updated JSS module import for 22.8\n    JssModule.forRoot({\n      apiHost: environment.sitecoreApiHost,\n      apiKey: environment.sitecoreApiKey,\n      siteName: environment.jssAppName,\n      // New configuration options in 22.8\n      defaultLanguage: 'en',\n      enableInlineEditing: true,\n      enableTracing: environment.production === false\n    })\n  ],\n  providers: [],\n  bootstrap: [AppComponent]\n})\nexport class AppModule { }\n```\n\n2. **Update feature modules**: Update your feature modules to work with the new version:\n\n```typescript\n@NgModule({\n  declarations: [\n    FeatureComponent\n  ],\n  imports: [\n    CommonModule,\n    // Import JSS components module\n    JssComponentsModule\n  ],\n  exports: [\n    FeatureComponent\n  ]\n})\nexport class FeatureModule { }\n```\n\n3. **Test module loading**: Verify that all modules load correctly.",
     "stepType": "code-update",
+    "affectedFile": "src/app/app.module.ts",
     "from": 22.7,
     "to": 22.8
   },
@@ -66,6 +75,7 @@
     "instruction": "Update component property bindings and event handlers",
     "detailedDescription": "Update your component property bindings and event handlers for JSS 22.8:\n\n1. **Update property bindings**: Update component property bindings:\n\n```html\n<!-- Updated property binding syntax for 22.8 -->\n<app-content-block \n  [rendering]=\"rendering\"\n  [fields]=\"rendering.fields\"\n  (itemClick)=\"onItemClick($event)\">\n</app-content-block>\n```\n\n2. **Update event handlers**: Update your component event handlers:\n\n```typescript\nexport class MyComponent {\n  @Input() rendering: ComponentRendering;\n  @Output() itemClick = new EventEmitter<any>();\n  \n  onItemClick(item: any): void {\n    // Updated event handling for 22.8\n    this.itemClick.emit({\n      item,\n      timestamp: new Date(),\n      componentName: this.rendering.componentName\n    });\n  }\n}\n```\n\n3. **Update two-way data binding**: If using two-way data binding, ensure it works with the updated version:\n\n```html\n<input [(ngModel)]=\"fieldValue\" (ngModelChange)=\"onFieldChange($event)\" />\n```\n\n4. **Test all bindings**: Verify that all property bindings and event handlers work correctly.",
     "stepType": "code-update",
+    "affectedFile": "src/app/components/*.component.ts",
     "from": 22.7,
     "to": 22.8
   },
@@ -73,6 +83,7 @@
     "instruction": "Update Angular HTTP interceptors",
     "detailedDescription": "Update your HTTP interceptors for JSS 22.8:\n\n1. **Update JSS HTTP interceptor**: Update your JSS HTTP interceptor:\n\n```typescript\nimport { Injectable } from '@angular/core';\nimport { HttpInterceptor, HttpRequest, HttpHandler } from '@angular/common/http';\nimport { JssContextService } from '@sitecore-jss/sitecore-jss-angular';\n\n@Injectable()\nexport class JssHttpInterceptor implements HttpInterceptor {\n  constructor(private jssContext: JssContextService) {}\n  \n  intercept(req: HttpRequest<any>, next: HttpHandler) {\n    // Updated interceptor logic for 22.8\n    const jssReq = req.clone({\n      setHeaders: {\n        'Content-Type': 'application/json',\n        'X-JSS-Version': '22.8.0',\n        // Add JSS-specific headers\n        'X-JSS-App-Name': this.jssContext.siteName,\n        'X-JSS-Language': this.jssContext.language\n      }\n    });\n    \n    return next.handle(jssReq);\n  }\n}\n```\n\n2. **Update interceptor providers**: Update your interceptor providers in the app module:\n\n```typescript\nimport { HTTP_INTERCEPTORS } from '@angular/common/http';\n\n@NgModule({\n  providers: [\n    {\n      provide: HTTP_INTERCEPTORS,\n      useClass: JssHttpInterceptor,\n      multi: true\n    }\n  ]\n})\nexport class AppModule { }\n```\n\n3. **Test HTTP requests**: Verify that all HTTP requests work correctly with the updated interceptors.",
     "stepType": "code-update",
+    "affectedFile": "src/app/interceptors/jss-http.interceptor.ts",
     "from": 22.7,
     "to": 22.8
   },
@@ -80,6 +91,7 @@
     "instruction": "Update the @sitecore-jss/sitecore-jss-angular package",
     "detailedDescription": "Update to version 22.9.0:\n\n```bash\nnpm install @sitecore-jss/sitecore-jss-angular@^22.9.0\n```\n\nVersion 22.9 includes build configuration improvements and testing enhancements.",
     "stepType": "package-update",
+    "affectedFile": "package.json",
     "from": 22.8,
     "to": 22.9
   },
@@ -87,6 +99,7 @@
     "instruction": "Update Angular build configuration and webpack settings",
     "detailedDescription": "Update your Angular build configuration for JSS 22.9:\n\n1. **Update angular.json**: Update your Angular build configuration:\n\n```json\n{\n  \"projects\": {\n    \"your-app\": {\n      \"architect\": {\n        \"build\": {\n          \"builder\": \"@angular-devkit/build-angular:browser\",\n          \"options\": {\n            \"outputPath\": \"dist/your-app\",\n            \"index\": \"src/index.html\",\n            \"main\": \"src/main.ts\",\n            \"polyfills\": \"src/polyfills.ts\",\n            \"tsConfig\": \"tsconfig.app.json\",\n            \"assets\": [\n              \"src/favicon.ico\",\n              \"src/assets\"\n            ],\n            \"styles\": [\n              \"src/styles.css\"\n            ],\n            \"scripts\": [],\n            \"allowedCommonJsDependencies\": [\n              \"@sitecore-jss/sitecore-jss-angular\"\n            ]\n          }\n        }\n      }\n    }\n  }\n}\n```\n\n2. **Update webpack configuration**: If using custom webpack configuration, update it for 22.9:\n\n```javascript\nconst path = require('path');\n\nmodule.exports = {\n  resolve: {\n    alias: {\n      '@sitecore-jss': path.resolve(__dirname, 'node_modules/@sitecore-jss')\n    }\n  },\n  // Additional webpack configuration for JSS 22.9\n};\n```\n\n3. **Update build scripts**: Update your package.json build scripts:\n\n```json\n{\n  \"scripts\": {\n    \"build\": \"ng build --prod\",\n    \"build:jss\": \"jss build && ng build --prod\",\n    \"start:jss\": \"jss start:connected\"\n  }\n}\n```\n\n4. **Test build process**: Verify that the build process works correctly with the updated configuration.",
     "stepType": "configuration",
+    "affectedFile": "angular.json",
     "from": 22.8,
     "to": 22.9
   },
@@ -94,6 +107,7 @@
     "instruction": "Update TypeScript configuration for Angular",
     "detailedDescription": "Update your TypeScript configuration for JSS 22.9:\n\n1. **Update tsconfig.json**: Update your main TypeScript configuration:\n\n```json\n{\n  \"compileOnSave\": false,\n  \"compilerOptions\": {\n    \"baseUrl\": \"./\",\n    \"outDir\": \"./dist/out-tsc\",\n    \"forceConsistentCasingInFileNames\": true,\n    \"strict\": true,\n    \"noImplicitReturns\": true,\n    \"noFallthroughCasesInSwitch\": true,\n    \"sourceMap\": true,\n    \"declaration\": false,\n    \"downlevelIteration\": true,\n    \"experimentalDecorators\": true,\n    \"moduleResolution\": \"node\",\n    \"importHelpers\": true,\n    \"target\": \"es2017\",\n    \"module\": \"es2020\",\n    \"lib\": [\n      \"es2018\",\n      \"dom\"\n    ],\n    \"paths\": {\n      \"@sitecore-jss/*\": [\"node_modules/@sitecore-jss/*\"]\n    }\n  },\n  \"angularCompilerOptions\": {\n    \"enableI18nLegacyMessageIdFormat\": false,\n    \"strictInjectionParameters\": true,\n    \"strictInputAccessModifiers\": true,\n    \"strictTemplates\": true\n  }\n}\n```\n\n2. **Update tsconfig.app.json**: Update your app-specific TypeScript configuration:\n\n```json\n{\n  \"extends\": \"./tsconfig.json\",\n  \"compilerOptions\": {\n    \"outDir\": \"./out-tsc/app\",\n    \"types\": []\n  },\n  \"files\": [\n    \"src/main.ts\",\n    \"src/polyfills.ts\"\n  ],\n  \"include\": [\n    \"src/**/*.d.ts\"\n  ]\n}\n```\n\n3. **Test TypeScript compilation**: Run `ng build` to verify that TypeScript compilation works correctly.",
     "stepType": "configuration",
+    "affectedFile": "tsconfig.json",
     "from": 22.8,
     "to": 22.9
   },
@@ -101,6 +115,7 @@
     "instruction": "Update Angular testing configuration and test files",
     "detailedDescription": "Update your Angular testing setup for JSS 22.9:\n\n1. **Update test configuration**: Update your testing configuration in angular.json:\n\n```json\n{\n  \"projects\": {\n    \"your-app\": {\n      \"architect\": {\n        \"test\": {\n          \"builder\": \"@angular-devkit/build-angular:karma\",\n          \"options\": {\n            \"main\": \"src/test.ts\",\n            \"polyfills\": \"src/polyfills.ts\",\n            \"tsConfig\": \"tsconfig.spec.json\",\n            \"karmaConfig\": \"karma.conf.js\",\n            \"assets\": [\n              \"src/favicon.ico\",\n              \"src/assets\"\n            ],\n            \"styles\": [\n              \"src/styles.css\"\n            ],\n            \"scripts\": []\n          }\n        }\n      }\n    }\n  }\n}\n```\n\n2. **Update component tests**: Update your component tests to work with JSS 22.9:\n\n```typescript\nimport { ComponentFixture, TestBed } from '@angular/core/testing';\nimport { JssModule } from '@sitecore-jss/sitecore-jss-angular';\nimport { MyComponent } from './my-component.component';\n\ndescribe('MyComponent', () => {\n  let component: MyComponent;\n  let fixture: ComponentFixture<MyComponent>;\n\n  beforeEach(async () => {\n    await TestBed.configureTestingModule({\n      declarations: [ MyComponent ],\n      imports: [\n        JssModule.forRoot({\n          apiHost: 'http://localhost:3000',\n          apiKey: 'test-api-key',\n          siteName: 'test-site'\n        })\n      ]\n    })\n    .compileComponents();\n  });\n\n  beforeEach(() => {\n    fixture = TestBed.createComponent(MyComponent);\n    component = fixture.componentInstance;\n    fixture.detectChanges();\n  });\n\n  it('should create', () => {\n    expect(component).toBeTruthy();\n  });\n  \n  // Updated test cases for JSS 22.9\n  it('should render component with JSS rendering', () => {\n    const mockRendering = {\n      componentName: 'MyComponent',\n      fields: {\n        title: { value: 'Test Title' }\n      }\n    };\n    \n    component.rendering = mockRendering;\n    fixture.detectChanges();\n    \n    expect(component.rendering).toEqual(mockRendering);\n  });\n});\n```\n\n3. **Update karma configuration**: Update your karma.conf.js if needed:\n\n```javascript\nmodule.exports = function (config) {\n  config.set({\n    basePath: '',\n    frameworks: ['jasmine', '@angular-devkit/build-angular'],\n    plugins: [\n      require('karma-jasmine'),\n      require('karma-chrome-headless'),\n      require('@angular-devkit/build-angular/plugins/karma')\n    ],\n    client: {\n      clearContext: false // leave Jasmine Spec Runner output visible in browser\n    },\n    coverageIstanbulReporter: {\n      dir: require('path').join(__dirname, './coverage/your-app'),\n      reports: ['html', 'lcovonly', 'text-summary'],\n      fixWebpackSourcePaths: true\n    },\n    reporters: ['progress', 'kjhtml'],\n    port: 9876,\n    colors: true,\n    logLevel: config.LOG_INFO,\n    autoWatch: true,\n    browsers: ['Chrome'],\n    singleRun: false,\n    restartOnFileChange: true\n  });\n};\n```\n\n4. **Test all tests**: Run `ng test` to verify that all tests pass with the updated configuration.",
     "stepType": "testing",
+    "affectedFile": "src/app/components/*.component.spec.ts",
     "from": 22.8,
     "to": 22.9
   }

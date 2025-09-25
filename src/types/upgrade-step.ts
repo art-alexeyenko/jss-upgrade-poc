@@ -4,6 +4,7 @@ export interface UpgradeStep {
   from: number;
   to: number;
   stepType?: string; // Used for grouping similar steps
+  affectedFile?: string; // File(s) that this step modifies
 }
 
 export type Framework = 'Next.JS' | 'Angular';
