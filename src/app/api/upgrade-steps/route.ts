@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { UpgradeStep, Framework } from '../../../types/upgrade-step';
+import { Framework } from '../../../types/upgrade-step';
 import { getUpgradeStepRepository, hasUpgradePath } from '../../../lib/data-layer';
 
 export async function POST(request: NextRequest) {

@@ -68,6 +68,7 @@ const UpgradeStep: React.FC<UpgradeStepProps> = ({ step, stepNumber }) => {
   return (
     <div className="border border-gray-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow">
       {/* Step Header - Always Visible */}
+      <input type="checkbox" className="mr-2" />
       <button
         className="w-full px-6 py-4 text-left focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-inset"
         onClick={() => setIsExpanded(!isExpanded)}

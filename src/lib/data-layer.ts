@@ -1,5 +1,7 @@
 import { UpgradeStep, Framework } from '../types/upgrade-step';
 import crypto from 'crypto';
+import nextjsSteps from '../data/nextjs-upgrade-steps.json';
+import angularSteps from '../data/angular-upgrade-steps.json';
 
 // Abstract data layer interface for future database implementations
 export interface IUpgradeStepRepository {
@@ -13,11 +15,8 @@ export class JsonUpgradeStepRepository implements IUpgradeStepRepository {
     
     try {
       if (frameworkKey === 'nextjs') {
-        // Use require for server-side JSON loading
-        const nextjsSteps = require('../data/nextjs-upgrade-steps.json');
         return nextjsSteps;
       } else if (frameworkKey === 'angular') {
-        const angularSteps = require('../data/angular-upgrade-steps.json');
         return angularSteps;
       }
       
